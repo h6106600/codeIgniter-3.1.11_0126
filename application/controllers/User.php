@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Admin extends CI_Controller {
+class User extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -15,22 +15,22 @@ class Admin extends CI_Controller {
         redirect(base_url().'/home'); 
 	}
 
-	public function admin_sign_in()
+	public function user_sign_in()
 	{
 		$this->load->view('layout/head');
 		$this->load->view('layout/nav');
-		$this->load->view('admin/sign_in');
+		$this->load->view('user/sign_in');
 		$this->load->view('layout/footer');
 	}
 
-	public function admin_sign_in_post()
+	public function user_sign_in_post()
 	{
 		$usr = $this->input->post('usr');
 		$pwd = $this->input->post('pwd');
 		$result = $this->users->sign_in_check($usr,$pwd);
 		if(empty($result)){
 			$this->session->set_flashdata('error_msg', '帳號密碼輸入錯誤');
-            redirect(base_url().'/admin/admin_sign_in'); 
+            redirect(base_url().'/user/user_sign_in'); 
             return;
 		}
 		$this->session->set_userdata('user', $usr);
@@ -38,15 +38,15 @@ class Admin extends CI_Controller {
 		
 	}
 
-	public function admin_sign_up()
+	public function user_sign_up()
 	{
 		$this->load->view('layout/head');
 		$this->load->view('layout/nav');
-		$this->load->view('admin/sign_up');
+		$this->load->view('user/sign_up');
 		$this->load->view('layout/footer');
 	}
 
-	public function admin_sign_up_post()
+	public function user_sign_up_post()
 	{
 		$email = $this->input->post('email');
 		$username = $this->input->post('usr');
@@ -56,7 +56,7 @@ class Admin extends CI_Controller {
 		$input_check_msg = $this->sign_up_input_check($email, $username, $password, $password2);
 		if(!empty($input_check_msg)){
 			$this->session->set_flashdata('error_msg', $input_check_msg);
-			redirect(base_url().'/admin/admin_sign_up'); 
+			redirect(base_url().'/user/user_sign_up'); 
 			return;
 		}
 		$this->users->sign_up_input($email, $username, $password);
@@ -76,7 +76,7 @@ class Admin extends CI_Controller {
 		return null;
 	}
 
-	public function admin_sign_out()
+	public function user_sign_out()
 	{
 		$this->session->unset_userdata('user');
 		redirect(base_url().'/home'); 

@@ -11,11 +11,20 @@ class Posts extends CI_Model  {
 	
 	public function show()
 	{
-		$sql = "SELECT * FROM article";
+		$sql = "SELECT * FROM posts";
 		$sth = $this->db->conn_id->prepare($sql);
 		$sth->execute();
 		$result = $sth->fetchAll(PDO::FETCH_ASSOC);
 		return $result;
+	}
+
+	public function insert_post($title,$content)
+	{
+		$sql = "INSERT INTO posts (title, content) VALUES (:title,:content)";
+		$sth = $this->db->conn_id->prepare($sql);
+		$sth->bindParam(':title',$title);
+		$sth->bindParam(':content',$content);
+		$sth->execute();
 	}
 
 }

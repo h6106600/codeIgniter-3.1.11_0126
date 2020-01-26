@@ -3,7 +3,7 @@
   <?php if(!empty($this->session->userdata('error_msg'))):?>
         <div class="alert alert-danger"><?= $this->session->userdata('error_msg')?></div>
   <?php endif ?>
-  <form action="<?= base_url(); ?>/admin/admin_sign_in_post" method="post">
+  <form action="<?= base_url(); ?>/user/user_sign_in_post" method="post">
     <div class="form-group">
       <label for="usr">UserName:</label>
       <input type="text" class="form-control" id="usr" name="usr" required>
