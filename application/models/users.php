@@ -22,9 +22,10 @@ class Users extends CI_Model  {
 
 	public function sign_up_check($email, $username, $password)
 	{
-		$sql = "SELECT COUNT(*)  FROM users WHERE email = :email";
+		$sql = "SELECT COUNT(*)  FROM users WHERE email = :email OR username = :username";
 		$sth = $this->db->conn_id->prepare($sql);
 		$sth->bindParam(':email',$email);
+		$sth->bindParam(':username',$username);
 		$sth->execute();
 		$result = $sth->fetchColumn();
 		return $result;

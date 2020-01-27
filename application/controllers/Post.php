@@ -26,6 +26,10 @@ class Post extends CI_Controller {
 	{
 		$title = $this->input->post('title');
 		$content = $this->input->post('content');
+
+		$title = htmlspecialchars(trim($title));
+		$content = htmlspecialchars(trim($content));
+
 		$this->posts->insert_post($title, $content);
 		redirect(base_url().'/post/post_input'); 
 	}

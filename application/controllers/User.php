@@ -25,15 +25,19 @@ class User extends CI_Controller {
 
 	public function user_sign_in_post()
 	{
-		$usr = $this->input->post('usr');
-		$pwd = $this->input->post('pwd');
-		$result = $this->users->sign_in_check($usr,$pwd);
+		$username = $this->input->post('usr');
+		$password = $this->input->post('pwd');
+
+		$username = htmlspecialchars(trim($username));
+		$password = htmlspecialchars(trim($password));
+
+		$result = $this->users->sign_in_check($username,$password);
 		if(empty($result)){
 			$this->session->set_flashdata('error_msg', '帳號密碼輸入錯誤');
             redirect(base_url().'/user/user_sign_in'); 
             return;
 		}
-		$this->session->set_userdata('user', $usr);
+		$this->session->set_userdata('user', $username);
 		redirect(base_url().'/home'); 
 		
 	}
@@ -53,6 +57,11 @@ class User extends CI_Controller {
 		$password = $this->input->post('pwd');
 		$password2 = $this->input->post('pwd2');
 
+		$email = htmlspecialchars(trim($email));
+		$username = htmlspecialchars(trim($username));
+		$password = htmlspecialchars(trim($password));
+		$password2 = htmlspecialchars(trim($password2));
+
 		$input_check_msg = $this->sign_up_input_check($email, $username, $password, $password2);
 		if(!empty($input_check_msg)){
 			$this->session->set_flashdata('error_msg', $input_check_msg);
@@ -60,7 +69,7 @@ class User extends CI_Controller {
 			return;
 		}
 		$this->users->sign_up_input($email, $username, $password);
-		$this->session->set_userdata('user', $usr);
+		$this->session->set_userdata('user', $username);
 		redirect(base_url().'/home'); 
 	}
 
@@ -69,9 +78,9 @@ class User extends CI_Controller {
 		if($password !== $password2){
 			return '確認密碼輸入錯誤';
 		}
-		$check_email = $this->users->sign_up_check($email, $username, $password);
-		if(!empty($check_email)){
-			return '此電子信箱已註冊';
+		$check_email_username = $this->users->sign_up_check($email, $username, $password);
+		if(!empty($check_email_username)){
+			return '此帳號或電子信箱已註冊';
 		}
 		return null;
 	}
